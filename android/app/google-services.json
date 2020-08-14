@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "876554771988",
+    "firebase_url": "https://pawspital-b3097.firebaseio.com",
+    "project_id": "pawspital-b3097",
+    "storage_bucket": "pawspital-b3097.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876554771988:android:a5be772aaf352d4b905101",
+        "android_client_info": {
+          "package_name": "com.nadjwa.pawspitalapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "876554771988-fpaggt0bcuvfvdrj27ma356d3m7tbfd9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDy0qD0J_GhiWEdnF05aMiln3kOgDCL0cY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "876554771988-fpaggt0bcuvfvdrj27ma356d3m7tbfd9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
