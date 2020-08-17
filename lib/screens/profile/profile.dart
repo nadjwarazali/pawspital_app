@@ -9,14 +9,24 @@ import 'package:flutter/cupertino.dart';
 
 import 'edit_profile.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   //final primaryColor = const Color(0xFF75A2EA);
+  final Pet pet;
+  Profile({this.pet});
+
+  @override
+  _ProfileState createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  TextEditingController _petNameController = new TextEditingController();
+  TextEditingController _breedController = new TextEditingController();
+  TextEditingController _birthdayController = new TextEditingController();
+  TextEditingController _weightController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final newPet =
-    new Pet(null, null, null, null);
-
+    final newPet = new Pet(null, null, null, null);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -28,7 +38,9 @@ class Profile extends StatelessWidget {
             child: Text(
               "Hello!",
               style: TextStyle(
-                  color: Colors.black, fontSize: 50.0, fontWeight: FontWeight.bold),
+                  color: Colors.black,
+                  fontSize: 45.0,
+                  fontWeight: FontWeight.bold),
               textAlign: TextAlign.left,
             ),
           ),
@@ -46,10 +58,42 @@ class Profile extends StatelessWidget {
           ],
         ),
       ),
-
-      //horizontal scroll list of pets
       body: Column(
         children: <Widget>[
+          SizedBox(
+            height: 55,
+            width: MediaQuery.of(context).size.width,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20.0),
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10.0, bottom: 30),
+                    child: Icon(
+                      Icons.account_circle,
+                      size: 60.0,
+                    ),
+                  ),
+                  Column(
+                    children: <Widget>[
+                      FutureBuilder(
+                        future: Provider.of(context).auth.getCurrentUser(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            return displayUserInformation(context, snapshot);
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        },
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
           SizedBox(
             height: 150,
             child: Row(
@@ -57,12 +101,13 @@ class Profile extends StatelessWidget {
                 SizedBox(
                   width: 20.0,
                 ),
+                //Add Pet Button
                 Container(
-                  width: 150.0,
-                  height: 150.0,
+                  width: 140.0,
+                  height: 140.0,
                   child: RaisedButton(
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
+                        borderRadius: BorderRadius.circular(20)),
                     elevation: 5,
                     color: Color.fromRGBO(240, 188, 26, 1),
                     child: Column(
@@ -71,7 +116,6 @@ class Profile extends StatelessWidget {
                         Icon(
                           Icons.add_circle_outline,
                         ),
-                        SizedBox(width: 25),
                         Text(
                           "Add Pet",
                           style: TextStyle(
@@ -84,13 +128,14 @@ class Profile extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => PetRegister(
-                              pet: newPet,
-                            )),
+                                  pet: newPet,
+                                )),
                       );
                     },
                   ),
                 ),
-//                SizedBox(width: 20.0),
+                SizedBox(width: 7),
+                //Pet List
                 Expanded(
                   child: StreamBuilder(
                       stream: getUsersPetStreamSnapshots(context),
@@ -111,18 +156,19 @@ class Profile extends StatelessWidget {
             ),
           ),
           SizedBox(height: 10),
+          //Utilities Buttons
           Container(
             child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 20.0, right: 20, top: 15, bottom: 15),
+              padding: const EdgeInsets.only(left: 20.0, right: 20),
               child: Column(
                 children: <Widget>[
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.1,
+                    height: MediaQuery.of(context).size.height * 0.11,
                     width: MediaQuery.of(context).size.width,
                     child: RaisedButton(
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
+                            borderRadius: BorderRadius.circular(20)),
+                        elevation: 5,
                         color: Colors.white,
                         textColor: Colors.black,
                         child: Row(
@@ -145,19 +191,20 @@ class Profile extends StatelessWidget {
                           );
                         }),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 17),
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.1,
+                    height: MediaQuery.of(context).size.height * 0.11,
                     width: MediaQuery.of(context).size.width,
                     child: RaisedButton(
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
+                            borderRadius: BorderRadius.circular(20)),
+                        elevation: 5,
                         color: Colors.white,
                         textColor: Colors.black,
                         child: Row(
                           children: <Widget>[
                             Icon(
-                              Icons.person,
+                              Icons.devices,
                             ),
                             SizedBox(width: 10),
                             Text(
@@ -168,19 +215,20 @@ class Profile extends StatelessWidget {
                         ),
                         onPressed: () {}),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 17),
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.1,
+                    height: MediaQuery.of(context).size.height * 0.11,
                     width: MediaQuery.of(context).size.width,
                     child: RaisedButton(
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
+                            borderRadius: BorderRadius.circular(20)),
+                        elevation: 5,
                         color: Colors.white,
                         textColor: Colors.black,
                         child: Row(
                           children: <Widget>[
                             Icon(
-                              Icons.person,
+                              Icons.exit_to_app,
                             ),
                             SizedBox(width: 10),
                             Text(
@@ -220,7 +268,6 @@ class Profile extends StatelessWidget {
 
   Widget buildPetCard(BuildContext context, DocumentSnapshot pet) {
     return new Expanded(
-//      margin: EdgeInsets.symmetric(vertical: 20.0),
       child: ListView(
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
@@ -228,14 +275,14 @@ class Profile extends StatelessWidget {
             Container(
               width: 150.0,
               child: Card(
+                color: Colors.black,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-//            margin: EdgeInsets.all(10),
+                    borderRadius: BorderRadius.circular(20)),
                 elevation: 5,
                 child: InkWell(
-                  onTap: () {},
-//              child: Padding(
-//                padding: const EdgeInsets.all(16.0),
+                  onTap: () {
+                    _displayPetDetailsBottomSheet(context, pet);
+                  },
                   child: Wrap(
                     children: <Widget>[
                       ListTile(
@@ -245,11 +292,13 @@ class Profile extends StatelessWidget {
                               SizedBox(height: 43),
                               Icon(
                                 Icons.pets,
+                                color: Colors.white,
                               ),
                               Text(
                                 pet['petName'],
                                 style: new TextStyle(
                                     fontSize: 20.0,
+                                    color: Colors.white,
                                     fontWeight: FontWeight.bold),
                               ),
                             ]),
@@ -287,4 +336,237 @@ class Profile extends StatelessWidget {
       );
     }
   }
+
+  void _displayPetDetailsBottomSheet(
+      BuildContext context, DocumentSnapshot petData) {
+    print(petData.documentID);
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20.0, top: 30.0),
+              child: ListView(
+                children: <Widget>[
+                  Column(children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20, left: 20),
+                          child: Text(
+                            "Details ",
+                            style: TextStyle(
+                                fontSize: 30.0, fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                        SizedBox(width: 160),
+                        IconButton(
+                          icon: Icon(
+                            Icons.edit,
+                          ),
+                          onPressed: () {
+                            _editPetBottomSheet(context, petData);
+                          },
+                        ),
+                        IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () async {
+                              await deletePet(petData);
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                  '/home', (Route<dynamic> route) => false);
+                            }),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text("Pet Name: ",
+                                style: TextStyle(
+                                    fontSize: 15.0, fontWeight: FontWeight.w300)),
+                            Text(
+                              petData['petName'],
+                              style: TextStyle(fontSize: 20.0),
+                            ),
+                            SizedBox(height: 15),
+                            Text("Breed: ",
+                                style: TextStyle(
+                                    fontSize: 15.0, fontWeight: FontWeight.w300)),
+                            Text(
+                              petData['breed'],
+                              style: TextStyle(fontSize: 20.0),
+                            ),
+                            SizedBox(height: 15),
+                            Text("Birthday: ",
+                                style: TextStyle(
+                                    fontSize: 15.0, fontWeight: FontWeight.w300)),
+                            Text(
+                              petData['birthday'],
+                              style: TextStyle(fontSize: 20.0),
+                            ),
+                            SizedBox(height: 15),
+                            Text("Weight: ",
+                                style: TextStyle(
+                                    fontSize: 15.0, fontWeight: FontWeight.w300)),
+                            Text(
+                              petData['weight'],
+                              style: TextStyle(fontSize: 20.0),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ]),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  void _editPetBottomSheet(BuildContext context, DocumentSnapshot petData) {
+    _petNameController.text = petData['petName'];
+    _breedController.text = petData['breed'];
+    _weightController.text = petData['weight'];
+    _birthdayController.text = petData['birthday'];
+
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        context: context,
+        builder: (BuildContext context) {
+          return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+                  child: TextField(
+                    controller: _petNameController,
+                    decoration: inputTextDeco("Pet Name"),
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+                  child: TextField(
+                    controller: _breedController,
+                    decoration: inputTextDeco("Breed"),
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+                  child: Container(
+                    child: TextField(
+                      controller: _weightController,
+                      decoration: inputTextDeco("Weight"),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+                  child: TextField(
+                    controller: _birthdayController,
+                    decoration: inputTextDeco("Birthday"),
+                  ),
+                ),
+                SizedBox(
+                  width: 20.0,
+                ),
+                RaisedButton(
+                  child: Text(
+                    "submit",
+                  ),
+                  color: Colors.lightGreen,
+                  onPressed: () async {
+                    await updatePet(context, petData);
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ]);
+        });
+  }
+
+  Future updatePet(BuildContext context, DocumentSnapshot petData) async {
+    var uid = await Provider.of(context).auth.getCurrentUID();
+    final doc = Firestore.instance
+        .collection("userData")
+        .document(uid)
+        .collection("pet")
+        .document(petData.documentID);
+    return await doc
+        .updateData({
+          'petName': _petNameController.text,
+          'breed': _breedController.text,
+          'weight': _weightController.text,
+          'birthday': _birthdayController.text
+        })
+        .then((value) => _petNameController.clear())
+        .then((value) => _breedController.clear())
+        .then((value) => _weightController.clear())
+        .then((value) => _birthdayController.clear());
+  }
+
+  Future deletePet(DocumentSnapshot petData) async {
+    var uid = await Provider.of(context).auth.getCurrentUID();
+    final doc = Firestore.instance
+        .collection("userData")
+        .document(uid)
+        .collection("pet")
+        .document(petData.documentID);
+    return await doc.delete();
+  }
+
+  InputDecoration inputTextDeco(String hint) {
+    return InputDecoration(
+      hintText: hint,
+      hintStyle: TextStyle(color: Colors.grey),
+      filled: true,
+      fillColor: Colors.white,
+      focusColor: Colors.white,
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.white, width: 0.0),
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      contentPadding:
+          const EdgeInsets.only(left: 14.0, bottom: 10.0, top: 10.0),
+    );
+  }
+}
+
+Widget displayUserInformation(context, snapshot) {
+  final authData = snapshot.data;
+  return Padding(
+    padding: const EdgeInsets.only(top: 10.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          "${authData.displayName ?? 'Anonymous'}",
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          "${authData.email ?? 'Anonymous'}",
+          style: TextStyle(fontSize: 15),
+        ),
+      ],
+    ),
+  );
 }

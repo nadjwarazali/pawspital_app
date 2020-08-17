@@ -37,6 +37,7 @@ class _ReminderState extends State<ReminderView> {
     }
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
@@ -80,8 +81,7 @@ class _ReminderState extends State<ReminderView> {
               builder: (context, snapshot) {
                 if (!snapshot.hasData)
                   return SliverToBoxAdapter(
-                    child: const Text(
-                        "Start Adding reminder by clicking + on app bar"),
+                    child: LinearProgressIndicator(),
                   );
                 return new SliverList(
                     delegate: SliverChildBuilderDelegate(
