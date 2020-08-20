@@ -6,20 +6,16 @@ class Reminder{
   String reminderTitle;
   String location;
   String notes;
-  DateTime startDate;
-  TimeOfDay startTime;
-  DateTime endDate;
   String pet;
   String documentId;
+  DateTime selectedDate;
 
   Reminder(
       this.reminderTitle,
       this.location,
       this.notes,
-      this.startDate,
-      this.startTime,
-      this.endDate,
-      this.pet
+      this.pet,
+      this.selectedDate
       );
 
 
@@ -27,20 +23,16 @@ class Reminder{
     'reminderTitle': reminderTitle,
     'location' : location,
     'notes' : notes,
-    'startDate': startDate,
-    'startTime': startTime,
-    'endDate': endDate,
     'pet': pet,
+    'selectedDate' : selectedDate
   };
 
   Reminder.fromSnapshot(DocumentSnapshot snapshot) :
      reminderTitle  = snapshot['reminderTitle'],
      location  = snapshot['location'],
      notes  = snapshot['notes'],
-     startDate  = snapshot['startDate'],
-     startTime  = snapshot['startTime'],
-     endDate = snapshot['endDate'],
      pet  = snapshot['pet'],
+     selectedDate = snapshot['selectedDate'],
      documentId = snapshot.documentID;
 
 }

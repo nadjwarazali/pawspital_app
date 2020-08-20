@@ -5,11 +5,12 @@ import 'package:pawspitalapp/models/reminder.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pawspitalapp/services/provider_widget.dart';
+import 'notification.dart';
 
 
 class ReminderView extends StatefulWidget {
   final Reminder reminder;
-  ReminderView({this.reminder});
+  ReminderView({Key key, @required this.reminder}) : super(key: key);
 
   @override
   _ReminderState createState() => _ReminderState();
@@ -20,11 +21,13 @@ class _ReminderState extends State<ReminderView> {
   TextEditingController _locationController = TextEditingController();
   TextEditingController _notesController = TextEditingController();
   TextEditingController _petController = TextEditingController();
+  final DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm');
+
 
   @override
   Widget build(BuildContext context) {
     final newReminder =
-        new Reminder(null, null, null, null, null, null, null);
+        new Reminder(null, null, null, null, null);
 
     void _displayCardsDetail() {
       Navigator.push(
@@ -42,13 +45,6 @@ class _ReminderState extends State<ReminderView> {
         slivers: <Widget>[
           SliverAppBar(
             flexibleSpace: FlexibleSpaceBar(
-//              background: Container(
-//                decoration: BoxDecoration(
-//                  image: DecorationImage(
-//                    image: AssetImage("images/bg2.jpg"),
-//                    fit: BoxFit.cover,
-//                  ),
-//                ),),
               titlePadding: EdgeInsets.only(
                 left: 20.0,
                 top: 30.0,
@@ -69,6 +65,20 @@ class _ReminderState extends State<ReminderView> {
                   color: Colors.black,
                 ),
                 onPressed: () => _displayCardsDetail(),
+              ),
+              FlatButton(
+                child: Icon(
+                  Icons.notifications,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            MyApp2()),
+                  );
+                }
               ),
             ],
             brightness: Brightness.light,
@@ -100,17 +110,16 @@ class _ReminderState extends State<ReminderView> {
     yield* Firestore.instance
         .collection('userData')
         .document(uid)
-        .collection('reminders')
-        .orderBy('startDate')
-        .snapshots();
+        .collection('reminders').snapshots();
   }
 
   Widget buildReminderCard(BuildContext context, DocumentSnapshot reminder) {
+
     return new Container(
       child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        margin: EdgeInsets.all(10),
-        elevation: 6,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        margin: EdgeInsets.only(right: 20, left: 20, top: 5, bottom: 5),
+        elevation: 5,
         child: InkWell(
           onTap: () {
             _displayReminderDetailsBottomSheet(context, reminder);
@@ -133,7 +142,8 @@ class _ReminderState extends State<ReminderView> {
                   padding: const EdgeInsets.only(top: 4.0, bottom: 8.0),
                   child: Row(children: <Widget>[
                     Text(
-                        "${DateFormat('dd/MM/yyyy').format((reminder['startDate']).toDate()).toString()} - ${DateFormat('dd/MM/yyyy').format((reminder['endDate']).toDate()).toString()}"),
+                    dateFormat.format(reminder['selectedDate'].toDate())
+                    ),
                     Spacer(),
                   ]),
                 ),
@@ -162,6 +172,7 @@ class _ReminderState extends State<ReminderView> {
   void _displayReminderDetailsBottomSheet(
       BuildContext context, DocumentSnapshot reminderData) {
     print(reminderData.documentID);
+    print(reminderData['selectedDate']);
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
