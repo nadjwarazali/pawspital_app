@@ -8,6 +8,7 @@ import 'package:pawspitalapp/services/provider_widget.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'edit_profile.dart';
+import 'managePassword.dart';
 
 class Profile extends StatefulWidget {
   //final primaryColor = const Color(0xFF75A2EA);
@@ -213,7 +214,13 @@ class _ProfileState extends State<Profile> {
                             ),
                           ],
                         ),
-                        onPressed: () {}),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ManageProfileInformationWidget()),
+                          );
+                        }),
                   ),
                   SizedBox(height: 17),
                   Container(
@@ -434,6 +441,7 @@ class _ProfileState extends State<Profile> {
   }
 
   void _editPetBottomSheet(BuildContext context, DocumentSnapshot petData) {
+
     _petNameController.text = petData['petName'];
     _breedController.text = petData['breed'];
     _weightController.text = petData['weight'];

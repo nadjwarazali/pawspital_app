@@ -31,7 +31,7 @@ class _PetRegisterState extends State<PetRegister> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Add Pet"),
-        backgroundColor: Color.fromRGBO(220, 190, 181, 1),
+        backgroundColor: Color.fromRGBO(240, 188, 26, 1),
       ),
       body: Center(
         child: SingleChildScrollView(

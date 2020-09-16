@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pawspitalapp/services/custom_dialog.dart';
 
 class FirstView extends StatelessWidget {
-  final primaryColor = const Color.fromRGBO(220, 190, 181, 1);
+  final primaryColor = const Color.fromRGBO(240, 188, 26, 1);
 
   @override
   Widget build(BuildContext context) {

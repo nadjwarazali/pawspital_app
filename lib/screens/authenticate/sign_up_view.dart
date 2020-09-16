@@ -6,8 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 
 // TODO move this to tone location
-//final primaryColor = const Color.fromRGBO(220, 190, 181, 1);
-final primaryColor = const Color.fromRGBO(220, 190, 181, 1);
+final primaryColor = const Color.fromRGBO(240, 188, 26, 1);
 
 enum AuthFormType { signIn, signUp, reset, anonymous, convert }
 
@@ -110,37 +109,39 @@ class _SignUpViewState extends State<SignUpView> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SpinKitDoubleBounce(
-                color: Colors.white,
+                color: Colors.black,
               ),
               AutoSizeText(
                 "Loading",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.black),
               ),
             ],
           ));
     } else {
       return Scaffold(
-        body: Container(
-          color: primaryColor,
-          height: _height,
-          width: _width,
-          child: SafeArea(
-            child: Column(
-              children: <Widget>[
-                showAlert(),
-                SizedBox(height: _height * 0.10),
-                buildHeaderText(),
-                SizedBox(height: _height * 0.05),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 5.0, bottom: 5.0),
-                  child: Form(
-                    key: formKey,
-                    child: Column(
-                      children: buildInputs() + buildButtons(),
+        body: SingleChildScrollView(
+          child: Container(
+            color: primaryColor,
+            height: _height,
+            width: _width,
+            child: SafeArea(
+              child: Column(
+                children: <Widget>[
+                  showAlert(),
+                  SizedBox(height: _height * 0.10),
+                  buildHeaderText(),
+                  SizedBox(height: _height * 0.05),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 5.0, bottom: 5.0),
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        children: buildInputs() + buildButtons(),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -199,7 +200,7 @@ class _SignUpViewState extends State<SignUpView> {
       _headerText,
       maxLines: 1,
       textAlign: TextAlign.center,
-      style: TextStyle(fontSize: 40, color: Colors.white, fontWeight: FontWeight.w700),
+      style: TextStyle(fontSize: 40, color: Colors.black, fontWeight: FontWeight.w700),
     );
   }
 
@@ -284,15 +285,18 @@ class _SignUpViewState extends State<SignUpView> {
     }
 
     return [
-
+      Padding(
+        padding: const EdgeInsets.only(left: 225),
+        child: showForgotPassword(_showForgotPassword),
+      ),
       SingleChildScrollView(
         child: Container(
           width: MediaQuery.of(context).size.width * 0.5,
           child: RaisedButton(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-            color: Colors.white,
-            textColor: primaryColor,
+            color: Colors.black,
+            textColor: Colors.white,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
@@ -304,7 +308,6 @@ class _SignUpViewState extends State<SignUpView> {
           ),
         ),
       ),
-      showForgotPassword(_showForgotPassword),
       FlatButton(
         child: Padding(
           padding: const EdgeInsets.only(
@@ -312,7 +315,7 @@ class _SignUpViewState extends State<SignUpView> {
           child: Text(
             _switchButtonText,
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.black,
               fontSize: 16,
             ),
           ),
@@ -333,7 +336,7 @@ class _SignUpViewState extends State<SignUpView> {
       child: FlatButton(
         child: Text(
           "Forgot Password?",
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.black),
         ),
         onPressed: () {
           setState(() {
@@ -351,7 +354,7 @@ class _SignUpViewState extends State<SignUpView> {
       child: Column(
         children: <Widget>[
           Divider(
-            color: Colors.white,
+            color: Colors.black,
           ),
           SizedBox(height: 10),
           GoogleSignInButton(

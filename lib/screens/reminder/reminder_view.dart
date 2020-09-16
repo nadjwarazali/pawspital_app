@@ -5,8 +5,6 @@ import 'package:pawspitalapp/models/reminder.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pawspitalapp/services/provider_widget.dart';
-import 'notification.dart';
-
 
 class ReminderView extends StatefulWidget {
   final Reminder reminder;
@@ -26,14 +24,15 @@ class _ReminderState extends State<ReminderView> {
 
   @override
   Widget build(BuildContext context) {
-    final newReminder =
+        final newReminder =
         new Reminder(null, null, null, null, null);
 
     void _displayCardsDetail() {
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => NewReminder(
+            builder: (context) =>
+                NewReminder(
                   reminder: newReminder,
                 )),
       );
@@ -65,21 +64,7 @@ class _ReminderState extends State<ReminderView> {
                   color: Colors.black,
                 ),
                 onPressed: () => _displayCardsDetail(),
-              ),
-              FlatButton(
-                child: Icon(
-                  Icons.notifications,
-                  color: Colors.black,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            MyApp2()),
-                  );
-                }
-              ),
+              )
             ],
             brightness: Brightness.light,
             expandedHeight: 90.0,
@@ -184,123 +169,82 @@ class _ReminderState extends State<ReminderView> {
               padding: const EdgeInsets.only(left: 20.0, top: 30.0),
               child: ListView(
                 children: <Widget>[
-                  Column(children: <Widget>[
-                    Row(
+                  Column(
                       children: <Widget>[
-                        Text(
+                    Row(children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20, left: 20),
+                        child: Text(
                           "Details ",
                           style: TextStyle(
-                              fontSize: 25.0, fontWeight: FontWeight.w500),
+                              fontSize: 30.0, fontWeight: FontWeight.w500),
                         ),
-                      ],
+                      ),
+                    SizedBox(width: 160),
+                    IconButton(
+                      icon: Icon(
+                        Icons.edit,
+                      ),
+                      onPressed: () {
+                        _editReminderBottomSheet(context, reminderData);
+                      },
                     ),
+                    IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () async {
+                          await deleteReminder(reminderData);
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              '/home', (Route<dynamic> route) => false);
+                        }),
+                   ]),
                     SizedBox(
                       height: 20.0,
                     ),
-                    Row(
-                      children: <Widget>[
-                        Text("Reminder: ",
-                            style: TextStyle(
-                                fontSize: 17.0, fontWeight: FontWeight.w300)),
-                        Text(
-                          reminderData['reminderTitle'],
-                          style: TextStyle(fontSize: 17.0),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text("Location: ",
-                            style: TextStyle(
-                                fontSize: 17.0, fontWeight: FontWeight.w300)),
-                        Text(
-                          reminderData['location'],
-                          style: TextStyle(fontSize: 17.0),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text("Notes: ",
-                            style: TextStyle(
-                                fontSize: 17.0, fontWeight: FontWeight.w300)),
-                        Text(
-                          reminderData['notes'],
-                          style: TextStyle(fontSize: 17.0),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text("Assigned Pet: ",
-                            style: TextStyle(
-                                fontSize: 17.0, fontWeight: FontWeight.w300)),
-                        Text(
-                          reminderData['pet'],
-                          style: TextStyle(fontSize: 17.0),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 50.0,
-                    ),
                     Container(
                       width: MediaQuery.of(context).size.width,
                       child: Padding(
-                        padding: const EdgeInsets.only(right: 20.0),
-                        child: FlatButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0)),
-                            color: Color.fromRGBO(220, 190, 181, 1),
-                            textColor: Colors.white,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Edit",
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text("Reminder: ",
                                 style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.w700),
-                              ),
+                                    fontSize: 15.0, fontWeight: FontWeight.w300)),
+                            Text(
+                              reminderData['reminderTitle'],
+                              style: TextStyle(fontSize: 20.0),
                             ),
-                            onPressed: () {
-                              _editReminderBottomSheet(context, reminderData);
-//                              Navigator.of(context).pop();
-//                              Navigator.push(
-//                                  context,
-//                                  MaterialPageRoute(
-//                                      builder: (context) => EditReminder(reminder: widget.reminder)));
-                            }),
+                            SizedBox(height: 15),
+                            Text("Location: ",
+                                style: TextStyle(
+                                    fontSize: 15.0, fontWeight: FontWeight.w300)),
+                            Text(
+                              reminderData['location'],
+                              style: TextStyle(fontSize: 20.0),
+                            ),
+                            SizedBox(height: 15),
+                            Text("Notes: ",
+                                style: TextStyle(
+                                    fontSize: 15.0, fontWeight: FontWeight.w300)),
+                            Text(
+                              reminderData['notes'],
+                              style: TextStyle(fontSize: 20.0),
+                            ),
+                            SizedBox(height: 15),
+                            Text("Assigned Pet: ",
+                                style: TextStyle(
+                                    fontSize: 15.0, fontWeight: FontWeight.w300)),
+                            Text(
+                              reminderData['pet'],
+                              style: TextStyle(fontSize: 20.0),
+                            ),
+                            SizedBox(
+                              height: 50.0,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    SizedBox(
-                      height: 5.0,
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 20.0),
-                        child: FlatButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0)),
-                            color: Color.fromRGBO(220, 190, 181, 1),
-                            textColor: Colors.white,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Delete",
-                                style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                            ),
-                            onPressed: () async {
-                              await deleteReminder(reminderData);
-                              Navigator.of(context).pushNamedAndRemoveUntil(
-                                  '/home', (Route<dynamic> route) => false);
-//                              Navigator.of(context).pop();
-                            }),
-                      ),
-                    )
                   ]),
                 ],
               ),
@@ -315,6 +259,7 @@ class _ReminderState extends State<ReminderView> {
     _locationController.text = reminderData['location'];
     _notesController.text = reminderData['notes'];
     _petController.text = reminderData['pet'];
+
 
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
@@ -416,14 +361,17 @@ class _ReminderState extends State<ReminderView> {
   InputDecoration inputTextDeco(String hint) {
     return InputDecoration(
       hintText: hint,
-      hintStyle: TextStyle(color: Colors.grey[500]),
+      hintStyle: TextStyle(color: Colors.grey),
       filled: true,
       fillColor: Colors.white,
       focusColor: Colors.white,
       enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white, width: 0.0)),
+        borderSide: BorderSide(color: Colors.white, width: 0.0),
+        borderRadius: BorderRadius.circular(10.0),
+      ),
       contentPadding:
-          const EdgeInsets.only(left: 14.0, bottom: 10.0, top: 10.0),
+      const EdgeInsets.only(left: 14.0, bottom: 10.0, top: 10.0),
     );
   }
+
 }

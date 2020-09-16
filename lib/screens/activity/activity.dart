@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pawspitalapp/screens/activity/stats_view.dart';
 
+import 'bluetooth_device.dart';
+
 class Activity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -36,9 +38,7 @@ class Activity extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => StatsView(
-//                      reminder: newReminder,
-                    )),
+                    builder: (context) => FlutterBlueApp()),
               );
             },
             child: Padding(

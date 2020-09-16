@@ -18,7 +18,7 @@ class _ProfileViewState extends State<ProfileView> {
     return Scaffold(
       appBar: AppBar(
         title: Text("User Profile"),
-        backgroundColor: Color.fromRGBO(220, 190, 181, 1),
+        backgroundColor: Color.fromRGBO(240, 188, 26, 1),
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -167,21 +167,6 @@ class _ProfileViewState extends State<ProfileView> {
                           ),
                         ],
                       ),
-//                      Row(
-//                        children: <Widget>[
-//                          Expanded(
-//                            child: Padding(
-//                              padding: const EdgeInsets.only(right: 15.0),
-//                              child: TextField(
-//                                controller: _userPhoneNumberController,
-//                                decoration: InputDecoration(
-//                                  helperText: "Phone Number",
-//                                ),
-//                              ),
-//                            ),
-//                          ),
-//                        ],
-//                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[

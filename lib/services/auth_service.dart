@@ -94,6 +94,26 @@ class AuthService {
     return (await _firebaseAuth.signInWithCredential(credential)).uid;
   }
 
+  Future<bool> validateCurrentPassword(String password) async {
+    var firebaseUser = await _firebaseAuth.currentUser();
+
+    var authCredentials = EmailAuthProvider.getCredential(
+        email: firebaseUser.email, password: password);
+    try {
+      var authResult = await firebaseUser
+          .reauthenticateWithCredential(authCredentials);
+      return authResult.uid != null;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<void> updateUserPassword(String password) async {
+    var firebaseUser = await _firebaseAuth.currentUser();
+    firebaseUser.updatePassword(password);
+  }
+
 }
 
 class NameValidator {
@@ -127,4 +147,5 @@ class PasswordValidator {
     }
     return null;
   }
+
 }
