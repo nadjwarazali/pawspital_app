@@ -1,6 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:pawspitalapp/screens/location/location.dart';
+import 'package:pawspitalapp/screens/maps/maps.dart';
 import 'package:pawspitalapp/screens/profile/profile.dart';
 import 'package:pawspitalapp/screens/activity/activity.dart';
 import 'package:pawspitalapp/screens/reminder/reminder_view.dart';
@@ -17,7 +17,7 @@ class _HomeState extends State<Home> {
   //create page
   final ReminderView _reminder = ReminderView();
   final Activity _activity = new Activity();
-  final Location _location = new Location();
+  final Maps _location = new Maps();
   final Profile _profile = new Profile();
 
   Widget _showPage = new ReminderView();

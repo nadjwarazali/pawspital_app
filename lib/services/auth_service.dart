@@ -5,6 +5,9 @@ class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
+
+  AuthService();
+
   Stream<String> get onAuthStateChanged =>
       _firebaseAuth.onAuthStateChanged.map(
             (FirebaseUser user) => user?.uid,
@@ -113,6 +116,11 @@ class AuthService {
     var firebaseUser = await _firebaseAuth.currentUser();
     firebaseUser.updatePassword(password);
   }
+
+//  uploadProfilePicture(BuildContext context, File image) async{
+//    var firebaseUser = await _firebaseAuth.currentUser();
+//    firebaseUser.avatarUrl = StorageRepo().uploadFile(context, image);
+//  }
 
 }
 

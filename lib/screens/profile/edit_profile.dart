@@ -8,8 +8,7 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
-
-  User user = new User("");
+    User user = new User("");
   TextEditingController _userAddressController = TextEditingController();
 //  TextEditingController _userPhoneNumberController = TextEditingController();
 
@@ -24,6 +23,18 @@ class _ProfileViewState extends State<ProfileView> {
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: <Widget>[
+//            Avatar(
+//              avatarUrl: user?.avatarUrl,
+//              onTap: () async {
+//                File image = await ImagePicker.pickImage(
+//                    source: ImageSource.gallery);
+//
+//                await
+//                Provider.of(context).auth.uploadProfilePicture(context, image);
+//
+//                setState(() {});
+//              },
+//            ),
             FutureBuilder(
               future: Provider.of(context).auth.getCurrentUser(),
               builder: (context, snapshot) {
