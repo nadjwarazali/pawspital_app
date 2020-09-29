@@ -130,6 +130,7 @@ class _NewReminderState extends State<NewReminder> {
                         .collection("reminders")
                         .add(widget.reminder.toJson());
                     scheduleReminder(_titleController.text, _locationController.text, selectedDate);
+
                       Navigator.of(context).pop();
                   },
                 )
