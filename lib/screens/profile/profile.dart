@@ -109,7 +109,7 @@ class _ProfileState extends State<Profile> {
                   child: RaisedButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
-                    elevation: 5,
+                    elevation: 4,
                     color: Color.fromRGBO(240, 188, 26, 1),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -169,7 +169,7 @@ class _ProfileState extends State<Profile> {
                     child: RaisedButton(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
-                        elevation: 5,
+                        elevation: 4,
                         color: Colors.white,
                         textColor: Colors.black,
                         child: Row(
@@ -199,7 +199,7 @@ class _ProfileState extends State<Profile> {
                     child: RaisedButton(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
-                        elevation: 5,
+                        elevation: 4,
                         color: Colors.white,
                         textColor: Colors.black,
                         child: Row(
@@ -229,7 +229,7 @@ class _ProfileState extends State<Profile> {
                     child: RaisedButton(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
-                        elevation: 5,
+                        elevation: 4,
                         color: Colors.white,
                         textColor: Colors.black,
                         child: Row(
@@ -285,7 +285,7 @@ class _ProfileState extends State<Profile> {
                 color: Colors.black,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
-                elevation: 5,
+                elevation: 4,
                 child: InkWell(
                   onTap: () {
                     _displayPetDetailsBottomSheet(context, pet);
