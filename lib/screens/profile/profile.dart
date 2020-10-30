@@ -1,12 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pawspitalapp/models/pet.dart';
+import 'package:pawspitalapp/models/user_model.dart';
 import 'package:pawspitalapp/screens/pet/pet_register.dart';
 import 'package:pawspitalapp/screens/pet/pet_view.dart';
+import 'package:pawspitalapp/screens/profile/avatar.dart';
+import 'package:pawspitalapp/screens/profile/profile_view.dart';
+import 'package:pawspitalapp/screens/profile/profilepage.dart';
+import 'package:pawspitalapp/screens/profile/user_controller.dart';
 import 'package:pawspitalapp/services/auth_service.dart';
 import 'package:pawspitalapp/services/provider_widget.dart';
 import 'package:flutter/cupertino.dart';
-
+import 'package:pawspitalapp/shared/locator.dart';
 import 'edit_profile.dart';
 import 'managePassword.dart';
 
@@ -20,6 +25,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  UserModel _currentUser = locator.get<UserController>().currentUser;
   TextEditingController _petNameController = new TextEditingController();
   TextEditingController _breedController = new TextEditingController();
   TextEditingController _birthdayController = new TextEditingController();
@@ -62,17 +68,20 @@ class _ProfileState extends State<Profile> {
       body: Column(
         children: <Widget>[
           SizedBox(
-            height: 55,
+            height: 60,
             width: MediaQuery.of(context).size.width,
             child: Padding(
               padding: const EdgeInsets.only(left: 20.0),
               child: Row(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(right: 10.0, bottom: 30),
-                    child: Icon(
-                      Icons.account_circle,
-                      size: 60.0,
+                    padding: const EdgeInsets.only(right: 15.0),
+                    child: Container(
+                      height: 60,
+                      width: 60,
+                      child: Avatar(
+                        avatarUrl: _currentUser?.avatarUrl,
+                      ),
                     ),
                   ),
                   Column(
@@ -110,16 +119,18 @@ class _ProfileState extends State<Profile> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                     elevation: 4,
-                    color: Color.fromRGBO(240, 188, 26, 1),
+                    color: Color.fromRGBO(64, 51, 84, 1),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(
                           Icons.add_circle_outline,
+                          color: Colors.white,
                         ),
                         Text(
                           "Add Pet",
                           style: TextStyle(
+                            color: Colors.white,
                               fontSize: 20.0, fontWeight: FontWeight.bold),
                         ),
                       ],
@@ -142,8 +153,7 @@ class _ProfileState extends State<Profile> {
                       stream: getUsersPetStreamSnapshots(context),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData)
-                          return Container(child: Text("Loading"));
-
+                          return Text("Loading");
                         return ListView.builder(
                             scrollDirection: Axis.horizontal,
                             shrinkWrap: true,
@@ -188,7 +198,7 @@ class _ProfileState extends State<Profile> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ProfileView()),
+                                builder: (context) =>ProfileView()),
                           );
                         }),
                   ),
@@ -205,11 +215,11 @@ class _ProfileState extends State<Profile> {
                         child: Row(
                           children: <Widget>[
                             Icon(
-                              Icons.devices,
+                              Icons.vpn_key,
                             ),
                             SizedBox(width: 10),
                             Text(
-                              "Devices",
+                              "Manage Password",
                               style: TextStyle(fontSize: 20.0),
                             ),
                           ],
@@ -282,7 +292,7 @@ class _ProfileState extends State<Profile> {
             Container(
               width: 150.0,
               child: Card(
-                color: Colors.black,
+                color: Color.fromRGBO(255, 205, 181, 1),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
                 elevation: 4,
@@ -299,13 +309,13 @@ class _ProfileState extends State<Profile> {
                               SizedBox(height: 43),
                               Icon(
                                 Icons.pets,
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                               Text(
                                 pet['petName'],
                                 style: new TextStyle(
                                     fontSize: 20.0,
-                                    color: Colors.white,
+                                    color: Colors.black,
                                     fontWeight: FontWeight.bold),
                               ),
                             ]),

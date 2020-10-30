@@ -52,6 +52,7 @@ class DateTimeDialog extends StatefulWidget {
 
 class _DateTimeDialogState extends State<DateTimeDialog> {
   DateTime selectedDate;
+  final _secondaryColor = Color.fromRGBO(172, 119, 119, 1);
 
   @override
   void initState() {
@@ -119,12 +120,23 @@ class _DateTimeDialogState extends State<DateTimeDialog> {
               ],
             ),
             const SizedBox(height: 16),
-            OutlineButton(
-              child: Text('Save'),
+            RaisedButton(
+              color: _secondaryColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0)),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    top: 10.0, bottom: 10.0, left: 10.0, right: 10.0),
+                child: Text(
+                  'Save',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              highlightColor: Colors.orange,
             ),
           ],
         ),

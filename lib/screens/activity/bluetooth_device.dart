@@ -36,7 +36,7 @@ class BluetoothOffScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(240, 188, 26, 1),
+      backgroundColor: Color.fromRGBO(255, 205, 181, 1),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -65,6 +65,7 @@ class FindDevicesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromRGBO(172, 119, 119, 1),
         title: Text('Find Devices'),
       ),
       body: RefreshIndicator(

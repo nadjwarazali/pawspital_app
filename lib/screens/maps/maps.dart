@@ -35,39 +35,41 @@ class _MapsState extends State<Maps> {
     super.dispose();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
+    final _width = MediaQuery.of(context).size.width;
+    final _height = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100.0),
-        child: AppBar(
-          flexibleSpace: Padding(
-            padding: const EdgeInsets.only(top: 50.0, left: 20.0),
-            child: Text(
-              "Maps",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 40.0,
-                  fontWeight: FontWeight.bold),
-              textAlign: TextAlign.left,
+      body: Container(
+        height: _height,
+        child: Stack(
+          children: <Widget>[
+
+            GoogleMap(
+              mapType: MapType.normal,
+              initialCameraPosition: initialLocation,
+              markers: Set.of((marker != null) ? [marker] : []),
+              circles: Set.of((circle != null) ? [circle] : []),
+              onMapCreated: (GoogleMapController controller) {
+                _controller = controller;
+    },
             ),
-          ),
-          backgroundColor: Colors.white,
-          elevation: 0.0,
+            Positioned(
+              left: 20,
+              top: 50,
+              child: Text(
+                'Maps',
+                style: TextStyle(
+                    color: Color.fromRGBO(59, 48, 71, 1),
+                    fontSize: 40.0,
+                    fontWeight: FontWeight.bold),
+                textAlign: TextAlign.left,
+              ),
+            ),
+          ],
         ),
       ),
-      body: GoogleMap(
-        mapType: MapType.normal,
-        initialCameraPosition: initialLocation,
-        markers: Set.of((marker != null) ? [marker] : []),
-        circles: Set.of((circle != null) ? [circle] : []),
-        onMapCreated: (GoogleMapController controller) {
-          _controller = controller;
-    },
-      ),
+
     floatingActionButton: FloatingActionButton(
     child: Icon(Icons.location_searching),
     onPressed: () {

@@ -48,8 +48,6 @@ class _HomeState extends State<Home> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,14 +55,14 @@ class _HomeState extends State<Home> {
         child: _showPage,
       ),
       bottomNavigationBar: CurvedNavigationBar(
-          color: Color.fromRGBO(240, 188, 26, 1),
-          backgroundColor: Colors.white,
+          color: Color.fromRGBO(75, 60, 94, 1),
+          backgroundColor: Color.fromRGBO(0, 0, 0, 0),
           height: 50,
           items: <Widget>[
-            Icon(Icons.list,size: 20, color: Colors.black),
-            Icon(Icons.show_chart,size: 20, color: Colors.black),
-            Icon(Icons.location_on,size: 20, color: Colors.black),
-            Icon(Icons.settings,size: 20, color: Colors.black),
+            Icon(Icons.list,size: 20, color: Colors.white),
+            Icon(Icons.show_chart,size: 20, color: Colors.white),
+            Icon(Icons.location_on,size: 20, color: Colors.white),
+            Icon(Icons.settings,size: 20, color: Colors.white),
           ],
         animationDuration: Duration(
           milliseconds: 200

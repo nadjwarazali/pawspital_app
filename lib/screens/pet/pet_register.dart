@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:pawspitalapp/models/pet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pawspitalapp/services/provider_widget.dart';
+import 'package:pawspitalapp/shared/button.dart';
+import 'package:pawspitalapp/shared/inputTextDeco.dart';
+import 'package:pawspitalapp/shared/locator.dart';
+import 'package:pawspitalapp/shared/textField.dart';
 
 
 
@@ -19,6 +23,8 @@ class _PetRegisterState extends State<PetRegister> {
 
   @override
   Widget build(BuildContext context) {
+    final _width = MediaQuery.of(context).size.width;
+    final _height = MediaQuery.of(context).size.height;
     TextEditingController _petNameController = new TextEditingController();
     _petNameController.text = widget.pet.petName;
     TextEditingController _breedController = new TextEditingController();
@@ -29,73 +35,93 @@ class _PetRegisterState extends State<PetRegister> {
     _weightController.text = widget.pet.weight;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Add Pet"),
-        backgroundColor: Color.fromRGBO(240, 188, 26, 1),
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                child: TextField(
+      body: SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("images/background2.jpg"),
+              fit: BoxFit.fill,
+            ),
+          ),
+          width: _width,
+          height: _height,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20.0),
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 10,
+                ),
+                AppBar(
+                  backgroundColor: Color.fromRGBO(0, 0, 0, 0),
+                  elevation: 0,
+                  leading: IconButton(
+                    icon:
+                    Icon(Icons.arrow_back_ios, size: 20, color: Colors.black),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                  title:
+                  Text("Add Pet", style: TextStyle(color: Colors.black)),
+                  centerTitle: true,
+                ),
+                SizedBox(
+                  height: 250,
+                ),
+                CustomTextField(
                   controller: _petNameController,
-                  decoration: inputTextDeco("Pet Name"),
+                  decoration: locator
+                      .get<InputTextDeco>()
+                      .inputTextDeco("Pet Name"),
                 ),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                child: TextField(
+                SizedBox(
+                  height: 10.0,
+                ),
+                CustomTextField(
                   controller: _breedController,
-                  decoration: inputTextDeco("Breed"),
+                  decoration: locator
+                      .get<InputTextDeco>()
+                      .inputTextDeco("Breed"),
                 ),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                child: TextField(
+                SizedBox(
+                  height: 10.0,
+                ),
+                CustomTextField(
                   controller: _birthdayController,
-                  decoration: inputTextDeco("Birthday"),
+                  decoration: locator
+                      .get<InputTextDeco>()
+                      .inputTextDeco("Birthday"),
                 ),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                child: TextField(
+                SizedBox(
+                  height: 10.0,
+                ),
+                CustomTextField(
                   controller: _weightController,
-                  decoration: inputTextDeco("Weight"),
+                  decoration: locator
+                      .get<InputTextDeco>()
+                      .inputTextDeco("Weight"),
                 ),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              RaisedButton(
-                child: Text("Save"),
-                onPressed: () async {
-                  widget.pet.petName = _petNameController.text;
-                  widget.pet.breed = _breedController.text;
-                  widget.pet.birthday = _birthdayController.text;
-                  widget.pet.weight = _weightController.text;
+                SizedBox(
+                  height: 10.0,
+                ),
+                CustomButton(
+                  text: 'save',
+                  onPressed: () async {
+                    widget.pet.petName = _petNameController.text;
+                    widget.pet.breed = _breedController.text;
+                    widget.pet.birthday = _birthdayController.text;
+                    widget.pet.weight = _weightController.text;
 
-                  final uid = await Provider.of(context).auth.getCurrentUID();
-                  await db.collection("userData").document(uid).collection("pet").add(widget.pet.toJson());
+                    final uid = await Provider.of(context).auth.getCurrentUID();
+                    await db.collection("userData").document(uid).collection("pet").add(widget.pet.toJson());
 
 //                    return to homepage
-                  Navigator.of(context).pop();
+                    Navigator.of(context).pop();
 
 
-                },
-              )
-            ],
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ),

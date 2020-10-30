@@ -24,6 +24,8 @@ class _ReminderState extends State<ReminderView> {
 
   @override
   Widget build(BuildContext context) {
+    final _width = MediaQuery.of(context).size.width;
+    final _height = MediaQuery.of(context).size.height;
         final newReminder =
         new Reminder(null, null, null, null, null);
 
@@ -40,51 +42,69 @@ class _ReminderState extends State<ReminderView> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            flexibleSpace: FlexibleSpaceBar(
-              titlePadding: EdgeInsets.only(
-                left: 20.0,
-                top: 30.0,
-                bottom: 10.0,
-              ),
-              title: Text(
-                'Reminder',
-                style: TextStyle(color:Colors.black , fontSize: 25.0, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            backgroundColor: Colors.white,
-            elevation: 0.0,
-            actions: <Widget>[
-              FlatButton(
-                child: Icon(
-                  Icons.add,
-                  color: Colors.black,
-                ),
-                onPressed: () => _displayCardsDetail(),
-              )
-            ],
-            brightness: Brightness.light,
-            expandedHeight: 90.0,
-            floating: true,
-            snap: true,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("images/background.jpg"),
+            fit: BoxFit.fill,
           ),
-          StreamBuilder(
-              stream: getUsersReminderStreamSnapshots(context),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData)
-                  return SliverToBoxAdapter(
-                    child: LinearProgressIndicator(),
-                  );
-                return new SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) => buildReminderCard(
-                            context, snapshot.data.documents[index]),
-                        childCount: snapshot.data.documents.length));
-              }),
-        ],
+        ),
+        width: _width,
+        height: _height,
+//        color: primaryColor,
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverToBoxAdapter(child: SizedBox(height: 5.0)),
+            SliverAppBar(
+              // shape: RoundedRectangleBorder(
+              //     borderRadius: BorderRadius.only(
+              // bottomLeft: Radius.circular(20.0),
+              // bottomRight: Radius.circular(20.0),
+              //     )),
+              flexibleSpace: FlexibleSpaceBar(
+                titlePadding: EdgeInsets.only(
+                  left: 20.0,
+                  top: 30.0,
+                  bottom: 10.0,
+                ),
+                title: Text(
+                  'Reminder',
+                  style: TextStyle(color:Color.fromRGBO(59, 48, 71, 1), fontSize: 28.0, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              backgroundColor: Color.fromRGBO(0, 0, 0, 0),
+              elevation: 0.0,
+              actions: <Widget>[
+                FlatButton(
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.black,
+                  ),
+                  onPressed: () => _displayCardsDetail(),
+                )
+              ],
+              brightness: Brightness.light,
+              expandedHeight: 90.0,
+              floating: true,
+              snap: true,
+            ),
+            SliverToBoxAdapter(child: SizedBox(height: 10.0)),
+            StreamBuilder(
+                stream: getUsersReminderStreamSnapshots(context),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData)
+                    return SliverToBoxAdapter(
+                      child: LinearProgressIndicator(),
+                    );
+                  return new SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) => buildReminderCard(
+                              context, snapshot.data.documents[index]),
+                          childCount: snapshot.data.documents.length));
+                }),
+          ],
+        ),
       ),
     );
   }
@@ -95,7 +115,7 @@ class _ReminderState extends State<ReminderView> {
     yield* Firestore.instance
         .collection('userData')
         .document(uid)
-        .collection('reminders').snapshots();
+        .collection('reminders').orderBy('selectedDate', descending: true).snapshots();
   }
 
   Widget buildReminderCard(BuildContext context, DocumentSnapshot reminder) {

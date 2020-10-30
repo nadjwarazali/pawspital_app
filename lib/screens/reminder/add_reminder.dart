@@ -5,9 +5,12 @@ import 'package:pawspitalapp/models/reminder.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:pawspitalapp/services/provider_widget.dart';
+import 'package:pawspitalapp/shared/button.dart';
+import 'package:pawspitalapp/shared/inputTextDeco.dart';
+import 'package:pawspitalapp/shared/locator.dart';
+import 'package:pawspitalapp/shared/textField.dart';
 import '../../main.dart';
 import 'date_time_dialog.dart';
-
 
 class NewReminder extends StatefulWidget {
   final Reminder reminder;
@@ -27,137 +30,159 @@ class _NewReminderState extends State<NewReminder> {
   TextEditingController _notesController = new TextEditingController();
   TextEditingController _petController = new TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
+    final _width = MediaQuery.of(context).size.width;
+    final _height = MediaQuery.of(context).size.height;
     _titleController.text = widget.reminder.reminderTitle;
     _locationController.text = widget.reminder.location;
     _notesController.text = widget.reminder.notes;
     _petController.text = widget.reminder.pet;
 
-    _titleController.clear();
-    _locationController.clear();
-    _notesController.clear();
-    _petController.clear();
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Reminder Details",
-        style: TextStyle(
-          color: Colors.black,
-        ),
-        ),
-        backgroundColor: Color.fromRGBO(240, 188, 26, 1),
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(dateFormat.format(selectedDate)),
-                RaisedButton(
-                  child: Text('Choose new date time'),
-                  onPressed: () async {
-                    showDateTimeDialog(context, initialDate: selectedDate,
-                        onSelectedDate: (selectedDate) {
-                          setState(() {
-                            this.selectedDate = selectedDate;
-                          });
-                        });
-                  },
+      body: SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("images/background2.jpg"),
+              fit: BoxFit.fill,
+            ),
+          ),
+          width: _width,
+          height: _height,
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 10,
+              ),
+              AppBar(
+                backgroundColor: Color.fromRGBO(0, 0, 0, 0),
+                elevation: 0,
+                leading: IconButton(
+                  icon:
+                      Icon(Icons.arrow_back_ios, size: 20, color: Colors.black),
+                  onPressed: () => Navigator.of(context).pop(),
                 ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                  child: TextField(
-                    controller: _titleController,
-                    decoration: inputTextDeco("Reminder"),
-                  ),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                  child: TextField(
-                    controller: _locationController,
-                    decoration: inputTextDeco("Location"),
-                  ),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                  child: Container(
-                    child: TextField(
-                      controller: _notesController,
-                      decoration: inputTextDeco("Notes"),
+                title:
+                    Text("Add Reminder", style: TextStyle(color: Colors.black)),
+                centerTitle: true,
+              ),
+              SizedBox(
+                height: 170,
+              ),
+              Center(
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 40, right: 40.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          CustomButton(
+                            text: 'Date Time',
+                            onPressed: () async {
+                              showDateTimeDialog(context,
+                                  initialDate: selectedDate,
+                                  onSelectedDate: (selectedDate) {
+                                setState(() {
+                                  this.selectedDate = selectedDate;
+                                });
+                              });
+                            },
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 7),
+                            child: Text(dateFormat.format(selectedDate)),
+                          ),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          CustomTextField(
+                            controller: _titleController,
+                            decoration: locator
+                                .get<InputTextDeco>()
+                                .inputTextDeco("Reminder"),
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          CustomTextField(
+                            controller: _locationController,
+                            decoration: locator
+                                .get<InputTextDeco>()
+                                .inputTextDeco("Location"),
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          CustomTextField(
+                            controller: _notesController,
+                            decoration: locator
+                                .get<InputTextDeco>()
+                                .inputTextDeco("Notes"),
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          CustomTextField(
+                            controller: _petController,
+                            decoration: locator
+                                .get<InputTextDeco>()
+                                .inputTextDeco("Pet"),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Center(
+                            child: CustomButton(
+                              text: 'Save',
+                              onPressed: () async {
+                                widget.reminder.reminderTitle =
+                                    _titleController.text;
+                                widget.reminder.location =
+                                    _locationController.text;
+                                widget.reminder.notes = _notesController.text;
+                                widget.reminder.pet = _petController.text;
+                                widget.reminder.selectedDate = selectedDate;
+
+                                final uid = await Provider.of(context)
+                                    .auth
+                                    .getCurrentUID();
+                                await db
+                                    .collection("userData")
+                                    .document(uid)
+                                    .collection("reminders")
+                                    .add(widget.reminder.toJson())
+                                    .then((value) => _titleController.clear())
+                                    .then(
+                                        (value) => _locationController.clear())
+                                    .then((value) => _notesController.clear())
+                                    .then((value) => _petController.clear());
+                                scheduleReminder(_titleController.text,
+                                    _locationController.text, selectedDate);
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                  child: TextField(
-                    controller: _petController,
-                    decoration: inputTextDeco("Pet Name"),
-                  ),
-                ),
-                SizedBox(
-                  width: 20.0,
-                ),
-                RaisedButton(
-                  child: Text("Save"),
-                  onPressed: () async {
-
-                    widget.reminder.reminderTitle = _titleController.text;
-                    widget.reminder.location = _locationController.text;
-                    widget.reminder.notes = _notesController.text;
-                    widget.reminder.pet = _petController.text;
-                    widget.reminder.selectedDate = selectedDate;
-
-                    final uid = await Provider.of(context).auth.getCurrentUID();
-                    await db
-                        .collection("userData")
-                        .document(uid)
-                        .collection("reminders")
-                        .add(widget.reminder.toJson());
-                    scheduleReminder(_titleController.text, _locationController.text, selectedDate);
-
-                      Navigator.of(context).pop();
-                  },
-                )
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  InputDecoration inputTextDeco(String hint) {
-    return InputDecoration(
-      hintText: hint,
-      hintStyle: TextStyle(color: Colors.grey[400]),
-      filled: true,
-      fillColor: Colors.white,
-      focusColor: Colors.white,
-      enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white, width: 0.0)),
-      contentPadding:
-          const EdgeInsets.only(left: 14.0, bottom: 10.0, top: 10.0),
-    );
-  }
-
-
-  void scheduleReminder(String title, String location, DateTime selectedDate) async {
+  void scheduleReminder(
+      String title, String location, DateTime selectedDate) async {
     var scheduleNotificationDateTime = selectedDate;
 
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
@@ -177,19 +202,9 @@ class _NewReminderState extends State<NewReminder> {
     );
 
     var platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics
-    );
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
 
-    await flutterLocalNotificationsPlugin.schedule(
-        0,
-        title,
-        location,
-        scheduleNotificationDateTime,
-        platformChannelSpecifics
-    );
+    await flutterLocalNotificationsPlugin.schedule(0, title, location,
+        scheduleNotificationDateTime, platformChannelSpecifics);
   }
-
-
-
 }
-

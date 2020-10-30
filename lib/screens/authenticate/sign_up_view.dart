@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:pawspitalapp/services/provider_widget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
+import 'package:pawspitalapp/screens/profile/user_controller.dart';
 
 // TODO move this to tone location
 final primaryColor = const Color.fromRGBO(240, 188, 26, 1);
@@ -61,9 +62,13 @@ class _SignUpViewState extends State<SignUpView> {
         final auth = Provider.of(context).auth;
         switch (authFormType) {
           case AuthFormType.signIn:
-            await auth.signInWithEmailAndPassword(
-              _email,
-              _password,
+            // await auth.signInWithEmailAndPassword(
+            //   _email,
+            //   _password,
+            // );
+            await UserController().signInWithEmailAndPassword2(
+                _email,
+                _password,
             );
             Navigator.of(context).pushReplacementNamed('/home');
             break;

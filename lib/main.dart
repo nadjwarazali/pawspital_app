@@ -6,6 +6,7 @@ import 'package:pawspitalapp/screens/authenticate/first_view.dart';
 import 'package:pawspitalapp/screens/authenticate/sign_up_view.dart';
 import 'package:pawspitalapp/services/auth_service.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:pawspitalapp/shared/locator.dart';
 import 'navigation.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -13,6 +14,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  setupServices();
 
   var initializationSettingsAndroid =
       AndroidInitializationSettings('app_icon');
@@ -46,8 +48,8 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
           // Define the default brightness and colors.
 //          brightness: Brightness.dark,
-          primaryColor: Color.fromRGBO(240, 188, 26, 1),
-          accentColor: Colors.amber,
+          primaryColor: Color.fromRGBO(172, 119, 119, 1),
+          accentColor: Color.fromRGBO(255, 205, 181, 1),
 
           // Define the default font family.
 //          fontFamily: 'Roboto',
