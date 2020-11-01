@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pawspitalapp/models/weight.dart';
+import 'package:pawspitalapp/screens/activity/weight/target_weight.dart';
 import 'file:///D:/Android/Project/New/pawspital_app/lib/screens/activity/weight/weight_log.dart';
 import 'package:pawspitalapp/services/provider_widget.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -10,6 +11,7 @@ import 'package:pawspitalapp/shared/inputTextDeco.dart';
 import 'package:pawspitalapp/shared/locator.dart';
 
 class WeightCard extends StatefulWidget {
+
   @override
   _WeightCardState createState() => _WeightCardState();
 }
@@ -29,13 +31,14 @@ class _WeightCardState extends State<WeightCard> {
     seriesList.add(charts.Series(
         seriesColor: charts.ColorUtil.fromDartColor(Color.fromRGBO(172, 119, 119, 1)),
         domainFn: (Weight weight, _) => weight.timestamp,
-        measureFn: (Weight weight, _) => (weight.weight),
+        measureFn: (Weight weight, _) => (weight.weight) ?? 0,
         id: 'Weight',
         data: myData,
         labelAccessorFn: (Weight row, _) => "${row.weight}"));
   }
 
   @override
+
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),

@@ -1,13 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:pawspitalapp/navigation.dart';
 import 'package:pawspitalapp/services/provider_widget.dart';
 import 'package:pawspitalapp/screens/authenticate/first_view.dart';
 import 'package:pawspitalapp/screens/authenticate/sign_up_view.dart';
 import 'package:pawspitalapp/services/auth_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pawspitalapp/shared/locator.dart';
-import 'navigation.dart';
+import 'package:pawspitalapp/screens/onboarding/setweight.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -46,21 +47,8 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: "Pawspital",
           theme: ThemeData(
-          // Define the default brightness and colors.
-//          brightness: Brightness.dark,
-          primaryColor: Color.fromRGBO(172, 119, 119, 1),
-          accentColor: Color.fromRGBO(255, 205, 181, 1),
-
-          // Define the default font family.
-//          fontFamily: 'Roboto',
-
-          // Define the default TextTheme. Use this to specify the default
-          // text styling for headlines, titles, bodies of text, and more.
-//          textTheme: TextTheme(
-//          headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-//          headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-//          bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
-//          ),
+          primaryColor: Color.fromRGBO(64, 51, 84, 1),
+          accentColor: Color.fromRGBO(64, 51, 84, 1),
           ),
           home: HomeController(),
           routes: <String, WidgetBuilder>{
@@ -69,6 +57,7 @@ class MyApp extends StatelessWidget {
             '/signIn': (BuildContext context) => SignUpView(authFormType: AuthFormType.signIn),
             '/anonymousSignIn': (BuildContext context) => SignUpView(authFormType: AuthFormType.anonymous),
             '/convertUser': (BuildContext context) => SignUpView(authFormType: AuthFormType.convert),
+            '/onBoard' : (BuildContext context) => SetWeight(),
           },
         ),
     );
@@ -91,4 +80,5 @@ class HomeController extends StatelessWidget {
     );
   }
 }
+
 

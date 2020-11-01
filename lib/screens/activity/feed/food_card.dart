@@ -26,8 +26,8 @@ class _FoodCardState extends State<FoodCard> with TickerProviderStateMixin {
   double percentage;
   double newPercentage = 0.0;
   AnimationController percentageAnimationController;
-  int _foodCalVal;
-  int newFoodVal;
+  double _foodCalVal;
+  double newFoodVal;
 
   @override
   void initState() {
@@ -63,11 +63,24 @@ class _FoodCardState extends State<FoodCard> with TickerProviderStateMixin {
                 StreamBuilder(
                     stream: getFoodCal(context),
                     builder: (context, snapshot) {
-                      if (!snapshot.hasData) return Text('LOADING');
+                      if (!snapshot.hasData) return LinearProgressIndicator();
                       return buildFoodCard(context, snapshot.data.documents[0]);
                     }),
               ],
             )));
+  }
+
+  Future setFoodCal(BuildContext context, DocumentSnapshot foodData) async {
+    var uid = await Provider.of(context).auth.getCurrentUID();
+    final doc = Firestore.instance
+        .collection("userData")
+        .document(uid)
+        .collection("food")
+        .document("calories");
+
+    return await doc.updateData({
+      'foodCal': double.parse(_foodCalController.text),
+    }).then((value) => _foodCalController.clear());
   }
 
   Widget buildFoodCard(BuildContext context, DocumentSnapshot foodData) {
@@ -115,7 +128,7 @@ class _FoodCardState extends State<FoodCard> with TickerProviderStateMixin {
                   percentage = newPercentage;
                   newPercentage += 33.33;
 
-                  _foodCalVal = int.parse(foodData['foodCal']);
+                  _foodCalVal = foodData['foodCal'];
                   newFoodVal = newFoodVal + _foodCalVal;
 
                   if (newPercentage > 100.0) {
@@ -126,8 +139,6 @@ class _FoodCardState extends State<FoodCard> with TickerProviderStateMixin {
                   percentageAnimationController.forward(from: 0.0);
 
                   print(newFoodVal);
-
-
                 });
               }),
         ),
@@ -157,7 +168,8 @@ class _FoodCardState extends State<FoodCard> with TickerProviderStateMixin {
                   children: <Widget>[
                     Text(
                       "Add Calorie Value",
-                      style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
+                      style: TextStyle(
+                          fontSize: 25.0, fontWeight: FontWeight.w500),
                     ),
                     SizedBox(
                       height: 20.0,
@@ -169,7 +181,9 @@ class _FoodCardState extends State<FoodCard> with TickerProviderStateMixin {
                         elevation: 3,
                         child: NumberTextField(
                           controller: _foodCalController,
-                          decoration: locator.get<InputTextDeco>().inputTextDeco("Calorie per serving"),
+                          decoration: locator
+                              .get<InputTextDeco>()
+                              .inputTextDeco("Calorie per serving"),
                         ),
                       ),
                     ),
@@ -191,19 +205,6 @@ class _FoodCardState extends State<FoodCard> with TickerProviderStateMixin {
         });
   }
 
-  Future setFoodCal(BuildContext context, DocumentSnapshot foodData) async {
-    var uid = await Provider.of(context).auth.getCurrentUID();
-    final doc = Firestore.instance
-        .collection("userData")
-        .document(uid)
-        .collection("food")
-        .document("calories");
-
-    return await doc.updateData({
-      'foodCal': _foodCalController.text,
-    }).then((value) => _foodCalController.clear());
-  }
-
   Stream<QuerySnapshot> getFoodCal(BuildContext context) async* {
     final uid = await Provider.of(context).auth.getCurrentUID();
     yield* Firestore.instance
@@ -211,32 +212,5 @@ class _FoodCardState extends State<FoodCard> with TickerProviderStateMixin {
         .document(uid)
         .collection('food')
         .snapshots();
-  }
-
-  _getFoodCal() async {
-    final uid = await Provider.of(context).auth.getCurrentUID();
-    var snapshot = await Firestore.instance
-        .collection('userData')
-        .document(uid)
-        .collection('food')
-        .getDocuments();
-
-    return Food.fromSnapshot(snapshot.documents.first);
-  }
-
-  InputDecoration inputTextDeco(String hint) {
-    return InputDecoration(
-      hintText: hint,
-      hintStyle: TextStyle(color: Colors.grey),
-      filled: true,
-      fillColor: Colors.white,
-      focusColor: Colors.white,
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white, width: 0.0),
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      contentPadding:
-          const EdgeInsets.only(left: 14.0, bottom: 10.0, top: 10.0),
-    );
   }
 }

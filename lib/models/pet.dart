@@ -5,14 +5,12 @@ import 'package:flutter/material.dart';
     String petName;
     String breed;
     String birthday;
-    String weight;
     String documentId;
 
     Pet(
         this.petName,
         this.breed,
         this.birthday,
-        this.weight,
         );
 
 
@@ -20,7 +18,6 @@ import 'package:flutter/material.dart';
       'petName': petName,
       'breed': breed,
       'birthday': birthday,
-      'weight': weight,
     };
 
 
@@ -28,7 +25,6 @@ import 'package:flutter/material.dart';
         petName  = snapshot['petName'],
         breed  = snapshot['breed'],
         birthday  = snapshot['birthday'],
-        weight  = snapshot['weight'],
         documentId = snapshot.documentID;
 
 }

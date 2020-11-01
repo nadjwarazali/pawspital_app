@@ -5,10 +5,9 @@ import 'package:pawspitalapp/services/provider_widget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:pawspitalapp/screens/profile/user_controller.dart';
+import 'package:pawspitalapp/shared/button.dart';
 
 // TODO move this to tone location
-final primaryColor = const Color.fromRGBO(240, 188, 26, 1);
-
 enum AuthFormType { signIn, signUp, reset, anonymous, convert }
 
 class SignUpView extends StatefulWidget {
@@ -62,10 +61,6 @@ class _SignUpViewState extends State<SignUpView> {
         final auth = Provider.of(context).auth;
         switch (authFormType) {
           case AuthFormType.signIn:
-            // await auth.signInWithEmailAndPassword(
-            //   _email,
-            //   _password,
-            // );
             await UserController().signInWithEmailAndPassword2(
                 _email,
                 _password,
@@ -74,7 +69,7 @@ class _SignUpViewState extends State<SignUpView> {
             break;
           case AuthFormType.signUp:
             await auth.createUserWithEmailAndPassword(_email, _password, _name);
-            Navigator.of(context).pushReplacementNamed('/home');
+            Navigator.of(context).pushReplacementNamed('/onBoard');
             break;
           case AuthFormType.reset:
             await auth.sendPasswordResetEmail(_email);
@@ -109,7 +104,7 @@ class _SignUpViewState extends State<SignUpView> {
     if (authFormType == AuthFormType.anonymous) {
       submit();
       return Scaffold(
-          backgroundColor: primaryColor,
+          backgroundColor: Color.fromRGBO(255, 246, 243, 0),
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -126,7 +121,6 @@ class _SignUpViewState extends State<SignUpView> {
       return Scaffold(
         body: SingleChildScrollView(
           child: Container(
-            color: primaryColor,
             height: _height,
             width: _width,
             child: SafeArea(
@@ -157,7 +151,7 @@ class _SignUpViewState extends State<SignUpView> {
   Widget showAlert() {
     if (_warning != null) {
       return Container(
-        color: Colors.amberAccent,
+        color: Colors.red,
         width: MediaQuery.of(context).size.width,
         padding: EdgeInsets.all(8.0),
         child: Row(
@@ -215,33 +209,48 @@ class _SignUpViewState extends State<SignUpView> {
     // if were in the sign up state add name
     if ([AuthFormType.signUp, AuthFormType.convert].contains(authFormType)) {
       textFields.add(
-        TextFormField(
-          validator: NameValidator.validate,
-          style: TextStyle(fontSize: 22.0),
-          decoration: buildSignUpInputDecoration("Name"),
-          onSaved: (value) => _name = value,
+        Material(
+          elevation: 3,
+          borderRadius: BorderRadiusDirectional.circular(20),
+          child: TextFormField(
+            cursorColor: Color.fromRGBO(172, 119, 119, 1),
+            validator: NameValidator.validate,
+            style: TextStyle(fontSize: 16.0),
+            decoration: buildSignUpInputDecoration("Name"),
+            onSaved: (value) => _name = value,
+          ),
         ),
       );
-      textFields.add(SizedBox(height: 20));
+      textFields.add(SizedBox(height: 15));
     }
 
     // add email & password
     textFields.add(
-      TextFormField(
-        validator: EmailValidator.validate,
-        style: TextStyle(fontSize: 20.0),
-        decoration: buildSignUpInputDecoration("Email"),
-        onSaved: (value) => _email = value,
+      Material(
+        borderRadius: BorderRadiusDirectional.circular(20),
+        elevation: 3,
+        child: TextFormField(
+          cursorColor: Color.fromRGBO(172, 119, 119, 1),
+          validator: EmailValidator.validate,
+          style: TextStyle(fontSize: 16.0),
+          decoration: buildSignUpInputDecoration("Email"),
+          onSaved: (value) => _email = value,
+        ),
       ),
     );
-    textFields.add(SizedBox(height: 20));
+    textFields.add(SizedBox(height: 15));
     textFields.add(
-      TextFormField(
-        validator: PasswordValidator.validate,
-        style: TextStyle(fontSize: 20.0),
-        decoration: buildSignUpInputDecoration("Password"),
-        obscureText: true,
-        onSaved: (value) => _password = value,
+      Material(
+        borderRadius: BorderRadiusDirectional.circular(20),
+        elevation: 3,
+        child: TextFormField(
+          cursorColor: Color.fromRGBO(172, 119, 119, 1),
+          validator: PasswordValidator.validate,
+          style: TextStyle(fontSize: 16.0),
+          decoration: buildSignUpInputDecoration("Password"),
+          obscureText: true,
+          onSaved: (value) => _password = value,
+        ),
       ),
     );
     textFields.add(SizedBox(height: 20));
@@ -256,8 +265,8 @@ class _SignUpViewState extends State<SignUpView> {
       fillColor: Colors.white,
       focusColor: Colors.white,
       enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white, width: 0.0),
-        borderRadius: BorderRadius.circular(7.0),
+        borderSide: BorderSide(color: Colors.grey, width: 0.2),
+        borderRadius: BorderRadius.circular(20.0),
       ),
       contentPadding:
           const EdgeInsets.only(left: 14.0, bottom: 10.0, top: 10.0),
@@ -300,13 +309,13 @@ class _SignUpViewState extends State<SignUpView> {
           child: RaisedButton(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-            color: Colors.black,
+            color: Color.fromRGBO(64, 51, 84, 1),
             textColor: Colors.white,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 _submitButtonText,
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700),
+                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w700),
               ),
             ),
             onPressed: submit,
@@ -325,7 +334,6 @@ class _SignUpViewState extends State<SignUpView> {
             ),
           ),
         ),
-        color: primaryColor,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
         onPressed: () {

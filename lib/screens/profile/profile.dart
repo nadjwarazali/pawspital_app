@@ -6,13 +6,11 @@ import 'package:pawspitalapp/screens/pet/pet_register.dart';
 import 'package:pawspitalapp/screens/pet/pet_view.dart';
 import 'package:pawspitalapp/screens/profile/avatar.dart';
 import 'package:pawspitalapp/screens/profile/profile_view.dart';
-import 'package:pawspitalapp/screens/profile/profilepage.dart';
 import 'package:pawspitalapp/screens/profile/user_controller.dart';
 import 'package:pawspitalapp/services/auth_service.dart';
 import 'package:pawspitalapp/services/provider_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pawspitalapp/shared/locator.dart';
-import 'edit_profile.dart';
 import 'managePassword.dart';
 
 class Profile extends StatefulWidget {
@@ -33,7 +31,7 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    final newPet = new Pet(null, null, null, null);
+    final newPet = new Pet(null, null, null);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -53,16 +51,16 @@ class _ProfileState extends State<Profile> {
           ),
           backgroundColor: Colors.white,
           elevation: 0.0,
-          actions: <Widget>[
-            FlatButton(
-                child: Icon(
-                  Icons.compare_arrows,
-                  color: Colors.black,
-                ),
-                onPressed: () async {
-                  Navigator.of(context).pushNamed("/convertUser");
-                }),
-          ],
+          // actions: <Widget>[
+          //   FlatButton(
+          //       child: Icon(
+          //         Icons.compare_arrows,
+          //         color: Colors.black,
+          //       ),
+          //       onPressed: () async {
+          //         Navigator.of(context).pushNamed("/convertUser");
+          //       }),
+          // ],
         ),
       ),
       body: Column(

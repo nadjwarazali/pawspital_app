@@ -12,7 +12,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="pawspitalapp"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/pawsicon">
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDy0qD0J_GhiWEdnF05aMiln3kOgDCL0cY"/>
         <activity

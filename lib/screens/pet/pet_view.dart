@@ -23,7 +23,7 @@ class _PetState extends State<PetView> {
   @override
   Widget build(BuildContext context) {
     final newPet =
-    new Pet(null, null, null, null);
+    new Pet(null, null, null);
 
     void _displayCardsDetail() {
       Navigator.push(

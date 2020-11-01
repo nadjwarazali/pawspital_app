@@ -47,6 +47,7 @@ dependencies:
   font_awesome_flutter: ^8.10.0
   get_it: ^5.0.1
   countup: ^0.1.2
+  firebase_core: ^0.4.4
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +74,10 @@ flutter:
     - images/background.jpg
     - images/background2.jpg
     - images/paw_icon.png
+    - images/ob1.jpg
+    - images/ob2.jpg
+    - images/ob3.jpg
+    - images/logo.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -23,9 +23,6 @@ class TargetWeight extends StatefulWidget {
 }
 
 class _TargetWeightState extends State<TargetWeight> {
-
-
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -38,12 +35,11 @@ class _TargetWeightState extends State<TargetWeight> {
             child: StreamBuilder(
                 stream: getUsersWeightStreamSnapshots(context),
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData) return Text('LOADING');
-                  return calculateTargetWeight(
-                      context, snapshot.data.documents[0]);
-                }
-
-                )));
+                  if (!snapshot.hasData)
+                    return LinearProgressIndicator();
+                    return calculateTargetWeight(
+                        context, snapshot.data.documents[0]);
+                })));
   }
 
   Stream<QuerySnapshot> getUsersWeightStreamSnapshots(
@@ -58,7 +54,7 @@ class _TargetWeightState extends State<TargetWeight> {
   }
 
   Widget calculateTargetWeight(BuildContext context, DocumentSnapshot weight) {
-        double _weight = weight['weight'];
+    double _weight = weight['weight'];
     double _targetWeight = (pow(_weight, 0.75)) * 70 * 1.2;
     double _reduceWeight = _targetWeight * 0.75;
     return Column(

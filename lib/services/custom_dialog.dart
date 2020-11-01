@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 //import 'package:auto_size_text/auto_size_text.dart';
 
 class CustomDialog extends StatelessWidget {
-  final primaryColor = const Color.fromRGBO(220, 190, 181, 1);
+  final primaryColor = const Color.fromRGBO(64, 51, 84, 1);
   final grayColor = const Color(0xFF939393);
 
   final String title,

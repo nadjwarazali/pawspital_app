@@ -8,8 +8,6 @@ import 'package:pawspitalapp/shared/inputTextDeco.dart';
 import 'package:pawspitalapp/shared/locator.dart';
 import 'package:pawspitalapp/shared/textField.dart';
 
-
-
 class PetRegister extends StatefulWidget {
   final Pet pet;
   PetRegister({Key key, @required this.pet}) : super(key: key);
@@ -20,19 +18,18 @@ class PetRegister extends StatefulWidget {
 
 class _PetRegisterState extends State<PetRegister> {
   final db = Firestore.instance;
+  TextEditingController _petNameController = new TextEditingController();
+  TextEditingController _breedController = new TextEditingController();
+  TextEditingController _birthdayController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
-    TextEditingController _petNameController = new TextEditingController();
+
     _petNameController.text = widget.pet.petName;
-    TextEditingController _breedController = new TextEditingController();
     _breedController.text = widget.pet.breed;
-    TextEditingController _birthdayController = new TextEditingController();
     _birthdayController.text = widget.pet.birthday;
-    TextEditingController _weightController = new TextEditingController();
-    _weightController.text = widget.pet.weight;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -56,12 +53,11 @@ class _PetRegisterState extends State<PetRegister> {
                   backgroundColor: Color.fromRGBO(0, 0, 0, 0),
                   elevation: 0,
                   leading: IconButton(
-                    icon:
-                    Icon(Icons.arrow_back_ios, size: 20, color: Colors.black),
+                    icon: Icon(Icons.arrow_back_ios,
+                        size: 20, color: Colors.black),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
-                  title:
-                  Text("Add Pet", style: TextStyle(color: Colors.black)),
+                  title: Text("Add Pet", style: TextStyle(color: Colors.black)),
                   centerTitle: true,
                 ),
                 SizedBox(
@@ -69,36 +65,24 @@ class _PetRegisterState extends State<PetRegister> {
                 ),
                 CustomTextField(
                   controller: _petNameController,
-                  decoration: locator
-                      .get<InputTextDeco>()
-                      .inputTextDeco("Pet Name"),
+                  decoration:
+                      locator.get<InputTextDeco>().inputTextDeco("Pet Name"),
                 ),
                 SizedBox(
                   height: 10.0,
                 ),
                 CustomTextField(
                   controller: _breedController,
-                  decoration: locator
-                      .get<InputTextDeco>()
-                      .inputTextDeco("Breed"),
+                  decoration:
+                      locator.get<InputTextDeco>().inputTextDeco("Breed"),
                 ),
                 SizedBox(
                   height: 10.0,
                 ),
                 CustomTextField(
                   controller: _birthdayController,
-                  decoration: locator
-                      .get<InputTextDeco>()
-                      .inputTextDeco("Birthday"),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                CustomTextField(
-                  controller: _weightController,
-                  decoration: locator
-                      .get<InputTextDeco>()
-                      .inputTextDeco("Weight"),
+                  decoration:
+                      locator.get<InputTextDeco>().inputTextDeco("Birthday"),
                 ),
                 SizedBox(
                   height: 10.0,
@@ -109,15 +93,16 @@ class _PetRegisterState extends State<PetRegister> {
                     widget.pet.petName = _petNameController.text;
                     widget.pet.breed = _breedController.text;
                     widget.pet.birthday = _birthdayController.text;
-                    widget.pet.weight = _weightController.text;
 
                     final uid = await Provider.of(context).auth.getCurrentUID();
-                    await db.collection("userData").document(uid).collection("pet").add(widget.pet.toJson());
+                    await db
+                        .collection("userData")
+                        .document(uid)
+                        .collection("pet")
+                        .add(widget.pet.toJson());
 
 //                    return to homepage
                     Navigator.of(context).pop();
-
-
                   },
                 )
               ],
@@ -127,19 +112,4 @@ class _PetRegisterState extends State<PetRegister> {
       ),
     );
   }
-  InputDecoration inputTextDeco(String hint) {
-    return InputDecoration(
-      hintText: hint,
-      hintStyle: TextStyle(color: Colors.grey[400]),
-      filled: true,
-      fillColor: Colors.white,
-      focusColor: Colors.white,
-      enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white, width: 0.0)),
-      contentPadding:
-      const EdgeInsets.only(left: 14.0, bottom: 10.0, top: 10.0),
-    );
-  }
 }
-
-
