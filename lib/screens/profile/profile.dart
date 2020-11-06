@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pawspitalapp/models/pet.dart';
 import 'package:pawspitalapp/models/user_model.dart';
+import 'package:pawspitalapp/screens/activity/bluetooth_device.dart';
 import 'package:pawspitalapp/screens/pet/pet_register.dart';
 import 'package:pawspitalapp/screens/pet/pet_view.dart';
 import 'package:pawspitalapp/screens/profile/avatar.dart';
@@ -11,7 +12,6 @@ import 'package:pawspitalapp/services/auth_service.dart';
 import 'package:pawspitalapp/services/provider_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pawspitalapp/shared/locator.dart';
-import 'managePassword.dart';
 
 class Profile extends StatefulWidget {
   //final primaryColor = const Color(0xFF75A2EA);
@@ -213,11 +213,11 @@ class _ProfileState extends State<Profile> {
                         child: Row(
                           children: <Widget>[
                             Icon(
-                              Icons.vpn_key,
+                              Icons.devices,
                             ),
                             SizedBox(width: 10),
                             Text(
-                              "Manage Password",
+                              "Devices",
                               style: TextStyle(fontSize: 20.0),
                             ),
                           ],
@@ -226,7 +226,7 @@ class _ProfileState extends State<Profile> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ManageProfileInformationWidget()),
+                                builder: (context) => FlutterBlueApp()),
                           );
                         }),
                   ),

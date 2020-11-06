@@ -70,7 +70,7 @@ class _LocalNotificationsState extends State<LocalNotifications> {
   }
 
   Future onDidReceiveLocalNotification(
-      int id, String title, String body, String paload) async {
+      int id, String title, String body, String payload) async {
     return showDialog(
         context: context,
         builder: (

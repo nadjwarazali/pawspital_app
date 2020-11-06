@@ -5,6 +5,10 @@ import 'package:pawspitalapp/models/reminder.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pawspitalapp/services/provider_widget.dart';
+import 'package:pawspitalapp/shared/button.dart';
+import 'package:pawspitalapp/shared/inputTextDeco.dart';
+import 'package:pawspitalapp/shared/locator.dart';
+import 'package:pawspitalapp/shared/textField.dart';
 
 class ReminderView extends StatefulWidget {
   final Reminder reminder;
@@ -56,11 +60,6 @@ class _ReminderState extends State<ReminderView> {
           slivers: <Widget>[
             SliverToBoxAdapter(child: SizedBox(height: 5.0)),
             SliverAppBar(
-              // shape: RoundedRectangleBorder(
-              //     borderRadius: BorderRadius.only(
-              // bottomLeft: Radius.circular(20.0),
-              // bottomRight: Radius.circular(20.0),
-              //     )),
               flexibleSpace: FlexibleSpaceBar(
                 titlePadding: EdgeInsets.only(
                   left: 20.0,
@@ -180,7 +179,7 @@ class _ReminderState extends State<ReminderView> {
     print(reminderData['selectedDate']);
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(40.0),
         ),
         context: context,
         builder: (BuildContext context) {
@@ -283,66 +282,59 @@ class _ReminderState extends State<ReminderView> {
 
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(20.0),
         ),
         context: context,
         builder: (BuildContext context) {
-          return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                  child: TextField(
+          return Padding(
+            padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "Edit Reminder",
+                    style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  CustomTextField(
                     controller: _titleController,
-                    decoration: inputTextDeco("Reminder"),
+                    decoration: locator.get<InputTextDeco>().inputTextDeco("Reminder"),
                   ),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                  child: TextField(
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  CustomTextField(
                     controller: _locationController,
-                    decoration: inputTextDeco("Location"),
+                    decoration: locator.get<InputTextDeco>().inputTextDeco("Location"),
                   ),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                  child: Container(
-                    child: TextField(
-                      controller: _notesController,
-                      decoration: inputTextDeco("Notes"),
-                    ),
+                  SizedBox(
+                    height: 10.0,
                   ),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                  child: TextField(
+                  CustomTextField(
+                    controller: _notesController,
+                    decoration: locator.get<InputTextDeco>().inputTextDeco("Notes"),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  CustomTextField(
                     controller: _petController,
-                    decoration: inputTextDeco("Pet Name"),
+                    decoration: locator.get<InputTextDeco>().inputTextDeco("Pet"),
                   ),
-                ),
-                SizedBox(
-                  width: 20.0,
-                ),
-                RaisedButton(
-                  child: Text(
-                    "submit",
+                  SizedBox(
+                    height: 20.0,
                   ),
-                  color: Colors.lightGreen,
-                  onPressed: () async {
-                    await updateReminder(context, reminderData);
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ]);
+                 CustomButton(
+                    text: 'Save',
+                    onPressed: () async {
+                      await updateReminder(context, reminderData);
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ]),
+          );
         });
   }
 
@@ -376,22 +368,6 @@ class _ReminderState extends State<ReminderView> {
         .collection("reminders")
         .document(reminderData.documentID);
     return await doc.delete();
-  }
-
-  InputDecoration inputTextDeco(String hint) {
-    return InputDecoration(
-      hintText: hint,
-      hintStyle: TextStyle(color: Colors.grey),
-      filled: true,
-      fillColor: Colors.white,
-      focusColor: Colors.white,
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white, width: 0.0),
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      contentPadding:
-      const EdgeInsets.only(left: 14.0, bottom: 10.0, top: 10.0),
-    );
   }
 
 }

@@ -59,6 +59,26 @@ class AuthService {
     await currentUser.reload();
   }
 
+  Future<bool> validatePassword(String password) async {
+    var firebaseUser = await _firebaseAuth.currentUser();
+
+    var authCredentials = EmailAuthProvider.getCredential(
+        email: firebaseUser.email, password: password);
+    try {
+      var authResult = await firebaseUser
+          .reauthenticateWithCredential(authCredentials);
+      return authResult.user != null;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<void> updatePassword(String password) async {
+    var firebaseUser = await _firebaseAuth.currentUser();
+    firebaseUser.updatePassword(password);
+  }
+
   // Email & Password Sign In
   // Future<String> signInWithEmailAndPassword(String email,
   //     String password) async {

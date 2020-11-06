@@ -23,6 +23,14 @@ class _PetRegisterState extends State<PetRegister> {
   TextEditingController _birthdayController = new TextEditingController();
 
   @override
+  void initState() {
+   _breedController.clear();
+   _petNameController.clear();
+   _birthdayController.clear();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;

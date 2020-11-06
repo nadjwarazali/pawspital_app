@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:pawspitalapp/navigation.dart';
+import 'package:pawspitalapp/screens/onboarding/setreminder.dart';
 import 'package:pawspitalapp/services/provider_widget.dart';
 import 'package:pawspitalapp/screens/authenticate/first_view.dart';
 import 'package:pawspitalapp/screens/authenticate/sign_up_view.dart';
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
             '/signIn': (BuildContext context) => SignUpView(authFormType: AuthFormType.signIn),
             '/anonymousSignIn': (BuildContext context) => SignUpView(authFormType: AuthFormType.anonymous),
             '/convertUser': (BuildContext context) => SignUpView(authFormType: AuthFormType.convert),
-            '/onBoard' : (BuildContext context) => SetWeight(),
+            '/onBoard' : (BuildContext context) => SetReminder(),
           },
         ),
     );

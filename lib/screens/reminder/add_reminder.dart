@@ -31,6 +31,15 @@ class _NewReminderState extends State<NewReminder> {
   TextEditingController _petController = new TextEditingController();
 
   @override
+  void initState() {
+    _titleController.clear();
+    _locationController.clear();
+    _notesController.clear();
+    _petController.clear();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
@@ -156,12 +165,12 @@ class _NewReminderState extends State<NewReminder> {
                                     .collection("userData")
                                     .document(uid)
                                     .collection("reminders")
-                                    .add(widget.reminder.toJson())
-                                    .then((value) => _titleController.clear())
-                                    .then(
-                                        (value) => _locationController.clear())
-                                    .then((value) => _notesController.clear())
-                                    .then((value) => _petController.clear());
+                                    .add(widget.reminder.toJson());
+                                    // .then((value) => _titleController.clear())
+                                    // .then(
+                                    //     (value) => _locationController.clear())
+                                    // .then((value) => _notesController.clear())
+                                    // .then((value) => _petController.clear());
                                 scheduleReminder(_titleController.text,
                                     _locationController.text, selectedDate);
                                 Navigator.of(context).pop();

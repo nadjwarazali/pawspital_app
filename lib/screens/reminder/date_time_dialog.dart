@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pawspitalapp/shared/button.dart';
 
 Future<TimeOfDay> _selectTime(BuildContext context,
     {@required DateTime initialDate}) {
@@ -120,20 +121,8 @@ class _DateTimeDialogState extends State<DateTimeDialog> {
               ],
             ),
             const SizedBox(height: 16),
-            RaisedButton(
-              color: _secondaryColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0)),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    top: 10.0, bottom: 10.0, left: 10.0, right: 10.0),
-                child: Text(
-                  'Save',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+            CustomButton(
+              text: 'Save',
               onPressed: () {
                 Navigator.of(context).pop();
               },

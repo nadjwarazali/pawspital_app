@@ -78,6 +78,9 @@ flutter:
     - images/ob2.jpg
     - images/ob3.jpg
     - images/logo.jpg
+    - images/bg4.jpg
+
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

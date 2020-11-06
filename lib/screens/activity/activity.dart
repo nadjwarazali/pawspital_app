@@ -55,10 +55,10 @@ class _ActivityState extends State<Activity> {
                 child: Container(
                   child: Column(
                     children: <Widget>[
-                      Container(
-                        height: 100,
-                        child: _cardBluetooth(),
-                      ),
+                      // Container(
+                      //   height: 100,
+                      //   child: _cardBluetooth(),
+                      // ),
                       WeightCard(),
                       TargetWeight(),
                       FoodCard(),
@@ -73,41 +73,41 @@ class _ActivityState extends State<Activity> {
     );
   }
 
-  _cardBluetooth() {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      margin: EdgeInsets.all(10),
-      elevation: 4,
-      child: InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => FlutterBlueApp()),
-          );
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.devices,
-                  ),
-                  SizedBox(width: 10),
-                  Text(
-                    "Devices",
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
-                  ),
-                  Spacer(),
-                ],
-              ),
-            ),
-          ]),
-        ),
-      ),
-    );
-  }
+  // _cardBluetooth() {
+  //   return Card(
+  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+  //     margin: EdgeInsets.all(10),
+  //     elevation: 4,
+  //     child: InkWell(
+  //       onTap: () {
+  //         Navigator.push(
+  //           context,
+  //           MaterialPageRoute(builder: (context) => FlutterBlueApp()),
+  //         );
+  //       },
+  //       child: Padding(
+  //         padding: const EdgeInsets.all(16.0),
+  //         child: Column(children: <Widget>[
+  //           Padding(
+  //             padding: const EdgeInsets.all(8.0),
+  //             child: Row(
+  //               children: <Widget>[
+  //                 Icon(
+  //                   Icons.devices,
+  //                 ),
+  //                 SizedBox(width: 10),
+  //                 Text(
+  //                   "Devices",
+  //                   style:
+  //                       TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
+  //                 ),
+  //                 Spacer(),
+  //               ],
+  //             ),
+  //           ),
+  //         ]),
+  //       ),
+  //     ),
+  //   );
+  // }
 }

@@ -150,7 +150,7 @@ class _FoodCardState extends State<FoodCard> with TickerProviderStateMixin {
   }
 
   _addFoodBottomSheet(BuildContext context, DocumentSnapshot foodData) {
-    _foodCalController.text = foodData['foodCal'];
+    _foodCalController.text = foodData['foodCal'].toString();
 
     showModalBottomSheet<dynamic>(
         isScrollControlled: true,
